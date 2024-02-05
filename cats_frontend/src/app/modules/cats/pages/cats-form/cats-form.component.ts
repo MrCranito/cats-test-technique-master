@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { CatsService } from "../../services/cats.service";
 
 @Component({
     selector: 'app-cats-form',
@@ -6,5 +7,5 @@ import { Component } from "@angular/core";
 })
 
 export class CatsFormComponent {
-    constructor() { }
+    constructor(private catsService: CatsService) { }
 }
