@@ -1,0 +1,58 @@
+
+<p-toast></p-toast>
+<p-card>
+
+    <ng-template pTemplate="title">
+
+        <div class="title-section">
+            <p-button (onClick)="goBackToList()">
+                <i class="pi pi-arrow-left"></i>
+            </p-button>
+            Add a cat
+        </div>
+       
+    </ng-template>
+
+    <form [formGroup]="form" novalidate>
+        <div class="field">
+          <label for="name" class="block">Name</label>
+          <input id="name" type="text" pInputText placeholder="Name" formControlName="name" />
+          <small class="p-error block" *ngIf="
+              form.get('name')?.invalid && form.get('name')?.dirty
+            ">
+            A cat name is required</small>
+        </div>
+        <div class="field">
+          <label for="breed" class="block">Breed</label>
+          <input id="breed" type="text" pInputText placeholder="Breed" formControlName="breed" />
+          <small class="p-error block" *ngIf="
+              form.get('breed')?.invalid && form.get('breed')?.dirty
+            ">
+            A cat breed is required</small>
+        </div>
+
+        <div class="field">
+            <label for="birthday" class="block">Birthday</label>
+            <input id="birthday" type="text" pInputText placeholder="Birthday" formControlName="birthday" />
+            <small class="p-error block" *ngIf="
+                form.get('birthday')?.invalid && form.get('birthday')?.dirty
+              ">
+              A cat birthday is required</small>
+          </div>
+
+          <div class="field">
+            <label for="description" class="block">Description</label>
+            <input id="description" type="text" pInputText placeholder="Description" formControlName="description" />
+            <small class="p-error block" *ngIf="
+                form.get('description')?.invalid && form.get('description')?.dirty
+              ">
+              A cat description is required</small>
+          </div>
+
+      </form>
+
+      <ng-template pTemplate="footer">
+        <p-button label="Add a cat" (onClick)="submit()">
+        </p-button>
+    </ng-template>
+</p-card>

@@ -30,6 +30,6 @@ export class CatsListComponent implements OnInit {
     }
 
     goToCreate(): void {
-        this.router.navigate(['/create']);
+        this.router.navigate(['cats/create']);
     }
 }

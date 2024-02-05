@@ -9,8 +9,11 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ButtonModule } from "primeng/button";
 import { InputTextModule } from "primeng/inputtext";
 import { RatingModule } from "primeng/rating";
-import { BrowserModule } from "@angular/platform-browser";
 import { CommonModule } from "@angular/common";
+import { CardModule } from 'primeng/card';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { MessageService } from "primeng/api";
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
     declarations: [
@@ -21,14 +24,19 @@ import { CommonModule } from "@angular/common";
         CommonModule,
         CatsRoutingModule,
         HttpClientModule,
-        TableModule,
         FormsModule,
         ReactiveFormsModule,
+
+        // PrimeNG
+        TableModule,
         ButtonModule,
         InputTextModule,
-        RatingModule
+        RatingModule,
+        CardModule,
+        ProgressSpinnerModule,
+        ToastModule,
     ],
-    providers: [CatsService],
+    providers: [CatsService, MessageService],
     exports: [CatsRoutingModule]
 })
 export class CatsModule { }
