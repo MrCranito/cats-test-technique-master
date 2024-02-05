@@ -32,9 +32,7 @@ export class CreateCommentComponent implements OnInit {
         this.cat = this.config.data.cat;
     }
 
-
     add() {
-
         const comment: IComment = {
             cat: this.cat!.id!,
             text: this.form.get('text')?.value,
@@ -44,7 +42,6 @@ export class CreateCommentComponent implements OnInit {
         this.commentsService.create(comment).subscribe((comment) => {
             this.ref.close(comment);
         });
-
     }
 
     close() {

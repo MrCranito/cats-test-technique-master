@@ -10,8 +10,12 @@ import { environment } from "src/app/environment/environment";
 export class CommentsService {
     constructor(private http: HttpClient) { }
 
-    get(): Observable<IComment[]> {
-        return this.http.get(`${environment.api_url}/v1/comments/`).pipe(map((data: any ) => {
+    get(catId: string): Observable<IComment[]> {
+        return this.http.get(`${environment.api_url}/v1/comments/`, {
+            params: {
+                cat: catId
+            }
+        }).pipe(map((data: any ) => {
             let results: IComment[] = [];
             for(let item of data.results) {
                 results.push({

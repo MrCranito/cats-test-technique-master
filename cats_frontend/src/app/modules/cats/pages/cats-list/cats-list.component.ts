@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ICat } from "../../models/cat.model";
 import { CatsService } from "../../services/cats.service";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { CommentsService } from "../../services/comments.service";
 import { IComment } from "../../models/comment.model";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
@@ -9,6 +9,7 @@ import { MessageService } from "primeng/api";
 import { DialogService } from 'primeng/dynamicdialog';
 import { CreateCommentComponent } from "../../components/modals/create-comment/create-comment.component";
 import { EditCommentComponent } from "../../components/modals/edit-comment/edit-comment.component";
+import { Subscription, debounceTime, distinctUntilChanged } from "rxjs";
 
 @Component({
     selector: 'app-cats-list',
@@ -24,13 +25,18 @@ export class CatsListComponent implements OnInit {
         { field: 'birthday', header: 'Birthday' },
         { field: 'description', header: 'Description' }
     ]
-    search: string = '';
 
     editSidebarIsOpened: boolean = false;
     createCommentModalIsOpened: boolean = false;
     editCommentModalIsOpened: boolean = false;
 
     selectedCat: ICat | null = null;
+    searchText: FormControl = new FormControl('');
+    searchSubscription: Subscription | null = null;
+
+    first: number = 0;
+    rows: number = 10;
+    sortField: string = '';
 
 
     // forms
@@ -47,31 +53,70 @@ export class CatsListComponent implements OnInit {
         private commentsService: CommentsService,
         private messageService: MessageService,
         private dialogService: DialogService,
-        private router: Router
+        private router: Router,
+        private route: ActivatedRoute
         ) { }
 
     ngOnInit(): void {
         this.catsService.get().subscribe((data: { cats: ICat[], count: number}) => {
             this.cats = data.cats;
             this.count = data.count;
-
-            this.commentsService.get().subscribe((comments: IComment[]) => {
-                for(let comment of comments) {
-                  for(let cat of this.cats) {
-                    if(cat.id === comment.cat) {
-                      cat.comments = cat?.comments ? [...cat.comments, comment] : [comment];
-
-                      console.log(cat.name, cat.comments)
-                    }
-                  }
-                }
-            })
         });
+
+        this.searchSubscription = 
+            this.searchText.valueChanges.pipe(
+                debounceTime(300),
+                distinctUntilChanged()
+            ).subscribe((_) => {
+                this.searchSubscription?.add(this.catsService.get(
+                    this.first / this.rows + 1,
+                    this.searchText.value,
+                    this.sortField
+                ).subscribe((data: { cats: ICat[], count: number}) => {
+                    this.cats = data.cats;
+                    this.count = data.count;
+                    this.first = 0;
+                }));
+            })
     }
 
     loadCat($event: any) {
-        console.log($event)
+        this.first = $event.first;
+        this.sortField = $event.sortField;
+
+        this.catsService.get(
+            this.first / this.rows + 1,
+            this.searchText.value,
+            this.sortField
+        ).subscribe((data: { cats: ICat[], count: number}) => {
+            this.cats = data.cats;
+            this.count = data.count;
+            this.first = $event.first;
+        });
+        this.updateQueryParam();
     }
+
+    expandCat(cat: ICat) {
+        this.commentsService.get(cat.id!).subscribe((comments: IComment[]) => {
+            cat.comments = comments;
+        });
+    }
+
+    private updateQueryParam() {
+        if(this.first === 0) {
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { page: null},
+            queryParamsHandling: 'merge',
+          });
+        } else {
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { page: this.first / this.rows + 1 },
+            queryParamsHandling: 'merge',
+          });
+        }
+      }
 
     goToCreate(): void {
         this.router.navigate(['cats/create']);

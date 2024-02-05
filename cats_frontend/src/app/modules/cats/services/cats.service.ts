@@ -10,8 +10,30 @@ import { environment } from "src/app/environment/environment";
 export class CatsService {
     constructor(private http: HttpClient) { }
 
-    get(): Observable<{ cats: ICat[], count: number}> {
-        return this.http.get(`${environment.api_url}/v1/cats/`).pipe(map((data: any ) => {
+    get(
+        page?: number,
+        search?: string,
+        field?: string,
+    ): Observable<{ cats: ICat[], count: number}> {
+
+
+        const params: {[key: string]: any} = {};
+
+        if(page) {
+            params['page'] = page;
+        }
+
+        if(search) {
+            params['search'] = search;
+        }
+
+        if(field) {
+            params['ordering'] = field;
+        }
+
+        return this.http.get(`${environment.api_url}/v1/cats/`, {
+            params: params,
+        }).pipe(map((data: any ) => {
             let results: ICat[] = [];
             for(let item of data.results) {
                 results.push({
