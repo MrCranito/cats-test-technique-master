@@ -14,6 +14,7 @@ import { CardModule } from 'primeng/card';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MessageService } from "primeng/api";
 import { ToastModule } from 'primeng/toast';
+import { CommentsService } from "./services/comments.service";
 
 @NgModule({
     declarations: [
@@ -36,7 +37,7 @@ import { ToastModule } from 'primeng/toast';
         ProgressSpinnerModule,
         ToastModule,
     ],
-    providers: [CatsService, MessageService],
+    providers: [CatsService, CommentsService, MessageService],
     exports: [CatsRoutingModule]
 })
 export class CatsModule { }

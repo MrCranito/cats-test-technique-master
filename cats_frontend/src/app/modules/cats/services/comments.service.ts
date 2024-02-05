@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { IComment } from "../models/comment.model";
-import { Observable } from "rxjs";
+import { Observable, map } from "rxjs";
 import { environment } from "src/app/environment/environment";
 
 @Injectable({
@@ -11,7 +11,18 @@ export class CommentsService {
     constructor(private http: HttpClient) { }
 
     get(): Observable<IComment[]> {
-        return this.http.get<IComment[]>(`${environment.api_url}/v1/comments/`);
+        return this.http.get(`${environment.api_url}/v1/comments/`).pipe(map((data: any ) => {
+            let results: IComment[] = [];
+            for(let item of data.results) {
+                results.push({
+                    id: item.id,
+                    cat: item.cat,
+                    text: item.text, 
+                    note: item.note
+                });
+            }
+            return results;
+        }));
     }
 
     create(comment: IComment): Observable<IComment> {
