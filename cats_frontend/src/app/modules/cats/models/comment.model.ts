@@ -1,6 +1,6 @@
 export interface IComment {
-    id: number;
-    cat: string
+    id: string;
+    cat: string;
     text: string;
     note: number;
 }

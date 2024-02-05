@@ -1,4 +1,4 @@
-<p-table [value]="cats" [columns]="cols" [paginator]="true">
+<p-table [value]="cats" [columns]="cols" [paginator]="true" [rows]="5">
     <ng-template pTemplate="caption">
         <div class="caption">
             <span class="p-input-icon-left ml-auto">
@@ -7,5 +7,32 @@
             </span>
             <p-button label="Create" (onClick)="goToCreate()"></p-button>
         </div>
+    </ng-template>
+
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th pSortableColumn="name">Name<p-sortIcon field="name"></p-sortIcon></th>
+            <th pSortableColumn="breed">Breed<p-sortIcon field="breed"></p-sortIcon></th>
+            <th>Birthday</th>
+            <th>Description</th>
+            <th pSortableColumn="avg_rating">Average Rating<p-sortIcon field="avg_rating"></p-sortIcon></th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-cat let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                {{cat[col.field]}}
+            </td>
+            <td>
+                <p-rating [(ngModel)]="cat.avg_rating" [readonly]="true" [cancel]="false"></p-rating>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="7">No cats found</td>
+        </tr>
     </ng-template>
 </p-table>

@@ -21,12 +21,12 @@ export class CatsListComponent implements OnInit {
     constructor(
         private catsService: CatsService,
         private router: Router
-        
-        
         ) { }
 
     ngOnInit(): void {
-        this.catsService.get().subscribe(cats => this.cats = cats);
+        this.catsService.get().subscribe((cats: ICat[]) => {
+            this.cats = cats;
+        });
     }
 
     goToCreate(): void {

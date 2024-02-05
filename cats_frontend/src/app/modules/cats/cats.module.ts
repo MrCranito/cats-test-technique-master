@@ -8,6 +8,9 @@ import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ButtonModule } from "primeng/button";
 import { InputTextModule } from "primeng/inputtext";
+import { RatingModule } from "primeng/rating";
+import { BrowserModule } from "@angular/platform-browser";
+import { CommonModule } from "@angular/common";
 
 @NgModule({
     declarations: [
@@ -15,13 +18,15 @@ import { InputTextModule } from "primeng/inputtext";
         CatsListComponent
     ],
     imports: [
+        CommonModule,
         CatsRoutingModule,
         HttpClientModule,
         TableModule,
         FormsModule,
         ReactiveFormsModule,
         ButtonModule,
-        InputTextModule
+        InputTextModule,
+        RatingModule
     ],
     providers: [CatsService],
     exports: [CatsRoutingModule]
