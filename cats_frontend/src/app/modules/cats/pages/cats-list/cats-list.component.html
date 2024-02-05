@@ -1,4 +1,4 @@
-<p-table [value]="cats" [columns]="cols" [paginator]="true" [rows]="5" dataKey="id">
+<p-table [value]="cats | search : search" [columns]="cols" [paginator]="true" [rows]="5" dataKey="id">
     <ng-template pTemplate="caption">
         <div class="caption">
             <span class="p-input-icon-left ml-auto">

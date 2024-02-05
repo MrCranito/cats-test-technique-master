@@ -16,11 +16,13 @@ import { MessageService } from "primeng/api";
 import { ToastModule } from 'primeng/toast';
 import { CommentsService } from "./services/comments.service";
 import { SidebarModule } from 'primeng/sidebar';
+import { SearchPipe } from "./pipes/search.pipe";
 
 @NgModule({
     declarations: [
         CatsFormComponent,
         CatsListComponent,
+        SearchPipe
     ],
     imports: [
         CommonModule,
