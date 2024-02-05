@@ -37,6 +37,7 @@ export class CatsListComponent implements OnInit {
     first: number = 0;
     rows: number = 10;
     sortField: string = '';
+    sortOrder: number = 1;
 
 
     // forms
@@ -83,11 +84,12 @@ export class CatsListComponent implements OnInit {
     loadCat($event: any) {
         this.first = $event.first;
         this.sortField = $event.sortField;
+        this.sortOrder = $event.sortOrder;
 
         this.catsService.get(
             this.first / this.rows + 1,
             this.searchText.value,
-            this.sortField
+            this.sortOrder == -1 ? '-' + this.sortField : this.sortField
         ).subscribe((data: { cats: ICat[], count: number}) => {
             this.cats = data.cats;
             this.count = data.count;
