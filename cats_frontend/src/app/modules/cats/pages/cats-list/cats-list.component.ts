@@ -6,6 +6,9 @@ import { CommentsService } from "../../services/comments.service";
 import { IComment } from "../../models/comment.model";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { MessageService } from "primeng/api";
+import { DialogService } from 'primeng/dynamicdialog';
+import { CreateCommentComponent } from "../../components/modals/create-comment/create-comment.component";
+import { EditCommentComponent } from "../../components/modals/edit-comment/edit-comment.component";
 
 @Component({
     selector: 'app-cats-list',
@@ -14,6 +17,7 @@ import { MessageService } from "primeng/api";
 export class CatsListComponent implements OnInit {
 
     cats: ICat[] = [];
+    count: number = 0;
     cols: { field: string, header: string }[] = [
         { field: 'name', header: 'Name' },
         { field: 'breed', header: 'Breed' },
@@ -42,23 +46,31 @@ export class CatsListComponent implements OnInit {
         private catsService: CatsService,
         private commentsService: CommentsService,
         private messageService: MessageService,
+        private dialogService: DialogService,
         private router: Router
         ) { }
 
     ngOnInit(): void {
-        this.catsService.get().subscribe((cats: ICat[]) => {
-            this.cats = cats;
-        });
+        this.catsService.get().subscribe((data: { cats: ICat[], count: number}) => {
+            this.cats = data.cats;
+            this.count = data.count;
 
-        this.commentsService.get().subscribe((comments: IComment[]) => {
-            for(let comment of comments) {
-              for(let cat of this.cats) {
-                if(cat.id === comment.cat) {
-                  cat.comments = cat.comments ? [...cat.comments, comment] : [comment];
+            this.commentsService.get().subscribe((comments: IComment[]) => {
+                for(let comment of comments) {
+                  for(let cat of this.cats) {
+                    if(cat.id === comment.cat) {
+                      cat.comments = cat?.comments ? [...cat.comments, comment] : [comment];
+
+                      console.log(cat.name, cat.comments)
+                    }
+                  }
                 }
-              }
-            }
-        })
+            })
+        });
+    }
+
+    loadCat($event: any) {
+        console.log($event)
     }
 
     goToCreate(): void {
@@ -83,11 +95,39 @@ export class CatsListComponent implements OnInit {
     }
 
     startCommentCreate(cat: ICat): void {
+       const dialogRef = this.dialogService.open(CreateCommentComponent, {
+        data: {
+            cat: cat
+        }
+       })
 
+        dialogRef.onClose.subscribe((comment: IComment) => {
+            for(let c of this.cats) {
+                if(c.id === cat.id) {
+                    c.comments = c.comments ? [...c.comments, comment] : [comment];
+                }
+            }
+
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'The comment is created' });
+        })
     }
 
     startCommentEdit(comment: IComment, cat: ICat): void {
+        const dialogRef = this.dialogService.open(EditCommentComponent, {
+            data: {
+                comment: comment
+            }
+        })
 
+        dialogRef.onClose.subscribe((comment: IComment) => {
+            for(let c of this.cats) {
+                if(c.id === cat.id) {
+                    c.comments = c.comments?.map((c) => c.id === comment.id ? comment : c);
+                }
+            }
+
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'The comment is updated' });
+        })
     }
 
 

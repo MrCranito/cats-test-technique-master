@@ -16,13 +16,16 @@ import { MessageService } from "primeng/api";
 import { ToastModule } from 'primeng/toast';
 import { CommentsService } from "./services/comments.service";
 import { SidebarModule } from 'primeng/sidebar';
-import { SearchPipe } from "./pipes/search.pipe";
+import { DialogService, DynamicDialogModule } from "primeng/dynamicdialog";
+import { CreateCommentComponent } from "./components/modals/create-comment/create-comment.component";
+import { EditCommentComponent } from "./components/modals/edit-comment/edit-comment.component";
 
 @NgModule({
     declarations: [
         CatsFormComponent,
         CatsListComponent,
-        SearchPipe
+        CreateCommentComponent,
+        EditCommentComponent
     ],
     imports: [
         CommonModule,
@@ -39,9 +42,10 @@ import { SearchPipe } from "./pipes/search.pipe";
         CardModule,
         ProgressSpinnerModule,
         ToastModule,
-        SidebarModule
+        SidebarModule,
+        DynamicDialogModule
     ],
-    providers: [CatsService, CommentsService, MessageService],
+    providers: [CatsService, CommentsService, DialogService, MessageService],
     exports: [CatsRoutingModule]
 })
 export class CatsModule { }

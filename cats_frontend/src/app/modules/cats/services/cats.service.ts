@@ -10,7 +10,7 @@ import { environment } from "src/app/environment/environment";
 export class CatsService {
     constructor(private http: HttpClient) { }
 
-    get(): Observable<ICat[]> {
+    get(): Observable<{ cats: ICat[], count: number}> {
         return this.http.get(`${environment.api_url}/v1/cats/`).pipe(map((data: any ) => {
             let results: ICat[] = [];
             for(let item of data.results) {
@@ -23,7 +23,7 @@ export class CatsService {
                     avg_rating: item.avg_rating,
                 });
             }
-            return results;
+            return {cats: results, count: data.count};
         }));
     }
 
