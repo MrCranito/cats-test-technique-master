@@ -1,0 +1,9 @@
+Django
+psycopg2
+djangorestframework
+django-filter
+django-environ
+drf-spectacular[sidedcar]
+django-extensions
+django-cors-headers
+

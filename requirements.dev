@@ -1,0 +1,8 @@
+black[d]
+isort
+pep8
+ipython
+pip-tools
+pylint
+pylint-django
+django-stubs[compatible-mypy]
