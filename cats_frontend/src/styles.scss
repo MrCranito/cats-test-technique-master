@@ -2,7 +2,6 @@
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 
-
 .field  {
     display: flex;
     flex-direction: column;
@@ -21,4 +20,21 @@
     p-button {
         margin-right: 10px;
     }
+}
+
+
+.caption {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-edit {
+    display: flex;
+    justify-content: space-between;
+}
+
+.rowexpansion-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
 }

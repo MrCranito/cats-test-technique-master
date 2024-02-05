@@ -5,7 +5,7 @@
                 <i class="pi pi-search"></i>
                 <input pInputText type="text" [(ngModel)]="search" placeholder="Search by name" />
             </span>
-            <p-button label="Create" (onClick)="goToCreate()"></p-button>
+            <p-button label="Create" severity="help" (onClick)="goToCreate()"></p-button>
         </div>
     </ng-template>
 
@@ -34,7 +34,7 @@
             </td>
             <td>
                 <div class="flex align-items-center justify-content-center gap-2">
-                    <button pButton pRipple type="button" icon="pi pi-pencil"  class="p-button-rounded p-button-text"></button>
+                    <button pButton pRipple type="button" icon="pi pi-pencil" severity="help" (click)="startCatEdit(cat)"  class="p-button-rounded p-button-text"></button>
                 </div>
             </td>
         </tr>
@@ -45,7 +45,7 @@
         <tr>
             <td colspan="7">
                 <div class="rowexpansion-header">
-                    <p-button label="Add a comment"></p-button>
+                    <p-button label="Add a comment" severity="help"></p-button>
                 </div>
                 <div class="p-3">
                     <p-table [value]="cat.comments" dataKey="id">
@@ -64,7 +64,7 @@
                                 </td>
                                 <td>
                                     <div class="flex align-items-center justify-content-center gap-2">
-                                        <button pButton pRipple type="button" icon="pi pi-pencil" class="p-button-rounded p-button-text"></button>
+                                        <button pButton (click)="startCommentEdit(comment, cat)" pRipple type="button" severity="help" icon="pi pi-pencil" class="p-button-rounded p-button-text"></button>
                                     </div>
                                 </td>
                             </tr>
@@ -86,3 +86,54 @@
         </tr>
     </ng-template>
 </p-table>
+
+<!-- Sidebar for editing a cat -->
+<p-sidebar [(visible)]="editSidebarIsOpened" position="right">
+    <ng-template pTemplate="header">
+        <h3>Edit cat</h3>
+    </ng-template>
+    <ng-template pTemplate="content">
+        <form [formGroup]="editCatForm" (ngSubmit)="updateCat()" novalidate>
+            <div class="field">
+              <label for="name" class="block">Name</label>
+              <input id="name" type="text" pInputText placeholder="Name" formControlName="name" />
+              <small class="p-error block" *ngIf="
+                  editCatForm.get('name')?.invalid && editCatForm.get('name')?.dirty
+                ">
+                A cat name is required</small>
+            </div>
+            <div class="field">
+              <label for="breed" class="block">Breed</label>
+              <input id="breed" type="text" pInputText placeholder="Breed" formControlName="breed" />
+              <small class="p-error block" *ngIf="
+                  editCatForm.get('breed')?.invalid && editCatForm.get('breed')?.dirty
+                ">
+                A cat breed is required</small>
+            </div>
+    
+            <div class="field">
+                <label for="birthday" class="block">Birthday</label>
+                <input id="birthday" type="text" pInputText placeholder="Birthday" formControlName="birthday" />
+                <small class="p-error block" *ngIf="
+                    editCatForm.get('birthday')?.invalid && editCatForm.get('birthday')?.dirty
+                  ">
+                  A cat birthday is required</small>
+              </div>
+    
+              <div class="field">
+                <label for="description" class="block">Description</label>
+                <input id="description" type="text" pInputText placeholder="Description" formControlName="description" />
+                <small class="p-error block" *ngIf="
+                    editCatForm.get('description')?.invalid && editCatForm.get('description')?.dirty
+                  ">
+                  A cat description is required</small>
+              </div>
+          </form>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="footer-edit">
+            <p-button [outlined]="true" severity="secondary" label="Annuler" (onClick)="cancelCatEdit()"></p-button>
+            <p-button label="Save" severity="help" (click)="updateCat()"></p-button>
+        </div>
+    </ng-template>
+</p-sidebar>

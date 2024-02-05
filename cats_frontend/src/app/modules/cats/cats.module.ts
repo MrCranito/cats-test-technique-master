@@ -15,11 +15,12 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MessageService } from "primeng/api";
 import { ToastModule } from 'primeng/toast';
 import { CommentsService } from "./services/comments.service";
+import { SidebarModule } from 'primeng/sidebar';
 
 @NgModule({
     declarations: [
         CatsFormComponent,
-        CatsListComponent
+        CatsListComponent,
     ],
     imports: [
         CommonModule,
@@ -36,6 +37,7 @@ import { CommentsService } from "./services/comments.service";
         CardModule,
         ProgressSpinnerModule,
         ToastModule,
+        SidebarModule
     ],
     providers: [CatsService, CommentsService, MessageService],
     exports: [CatsRoutingModule]
