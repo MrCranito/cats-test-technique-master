@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ICat } from "../../models/cat.model";
 import { CatsService } from "../../services/cats.service";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-cats-list',
@@ -14,11 +15,21 @@ export class CatsListComponent implements OnInit {
         { field: 'breed', header: 'Breed' },
         { field: 'birthday', header: 'Birthday' },
         { field: 'description', header: 'Description' }
-      ]
+    ]
+    search: string = '';
 
-    constructor(private catsService: CatsService) { }
+    constructor(
+        private catsService: CatsService,
+        private router: Router
+        
+        
+        ) { }
 
     ngOnInit(): void {
         this.catsService.get().subscribe(cats => this.cats = cats);
+    }
+
+    goToCreate(): void {
+        this.router.navigate(['/create']);
     }
 }

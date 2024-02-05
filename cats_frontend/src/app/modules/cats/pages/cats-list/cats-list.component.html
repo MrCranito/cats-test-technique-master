@@ -1,1 +1,11 @@
-<p-table [value]="cats" [columns]="cols" [paginator]="true"></p-table>
+<p-table [value]="cats" [columns]="cols" [paginator]="true">
+    <ng-template pTemplate="caption">
+        <div class="caption">
+            <span class="p-input-icon-left ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" [(ngModel)]="search" placeholder="Search by name" />
+            </span>
+            <p-button label="Create" (onClick)="goToCreate()"></p-button>
+        </div>
+    </ng-template>
+</p-table>

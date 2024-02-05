@@ -5,6 +5,9 @@ import { CatsListComponent } from "./pages/cats-list/cats-list.component";
 import { TableModule } from 'primeng/table';
 import { CatsService } from "./services/cats.service";
 import { HttpClientModule } from "@angular/common/http";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { ButtonModule } from "primeng/button";
+import { InputTextModule } from "primeng/inputtext";
 
 @NgModule({
     declarations: [
@@ -14,7 +17,11 @@ import { HttpClientModule } from "@angular/common/http";
     imports: [
         CatsRoutingModule,
         HttpClientModule,
-        TableModule
+        TableModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ButtonModule,
+        InputTextModule
     ],
     providers: [CatsService],
     exports: [CatsRoutingModule]
