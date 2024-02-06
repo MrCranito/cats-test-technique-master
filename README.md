@@ -27,7 +27,14 @@ The goal of this interview is to develop an angular SPA based on this API that w
 ```bash
 docker-compose up -d --build
 docker-compose exec web python manage.py migrate
+cd cats_frontend
+npm install
+ng serve
 ```
+
+### Launch 
+
+Launch [site](http://localhost:8000/v1)
 
 ### How to use
 
