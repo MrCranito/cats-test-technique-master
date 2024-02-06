@@ -92,7 +92,7 @@ export class CatsService {
         return this.http.patch<ICat>(`${environment.api_url}/v1/cats/${cat.id}/`, cat);
     }
 
-    delete(id: number): Observable<any> {
+    delete(id: string): Observable<any> {
         return this.http.delete(`${environment.api_url}/v1/cats/${id}/`);
     }
 }

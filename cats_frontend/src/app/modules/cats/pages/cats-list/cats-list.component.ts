@@ -35,8 +35,8 @@ export class CatsListComponent implements OnInit {
         { field: 'description', header: 'Description' }
     ]
     matchFiltersModeOptionsText: { label: string, value: string }[] =  [
-        { label: 'In', value: FilterMatchMode.IN },
         { label: 'Contains', value: FilterMatchMode.CONTAINS },
+        { label: 'In', value: FilterMatchMode.IN },
     ]
     matchFiltersModeOptionsNumber: { label: string, value: string }[] =  [
         { label: 'Greater than', value: FilterMatchMode.GREATER_THAN },
@@ -144,6 +144,13 @@ export class CatsListComponent implements OnInit {
 
     goToCreate(): void {
         this.router.navigate(['cats/create']);
+    }
+
+    deleteCat(cat: ICat): void {
+        this.catsService.delete(cat.id!).subscribe(() => {
+            this.cats = this.cats.filter(c => c.id !== cat.id);
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'The cat is deleted' });
+        });
     }
 
     startCatEdit(cat: ICat): void {
