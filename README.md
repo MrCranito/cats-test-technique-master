@@ -25,6 +25,7 @@ The goal of this interview is to develop an angular SPA based on this API that w
 ### How to run
 
 ```bash
+git pull https://github.com/MrCranito/cats-test-technique-master
 docker-compose up -d --build
 docker-compose exec web python manage.py migrate
 cd cats_frontend
