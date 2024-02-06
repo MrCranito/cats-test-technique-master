@@ -34,7 +34,7 @@ ng serve
 
 ### Launch 
 
-Launch [site](http://localhost:8000/v1)
+Launch [site](http://localhost:4200)
 
 ### How to use
 
