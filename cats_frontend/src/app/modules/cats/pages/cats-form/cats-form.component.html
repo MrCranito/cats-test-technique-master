@@ -30,8 +30,9 @@
 
         <div class="field">
             <label for="birthday" class="block">Birthday</label>
-            <input id="birthday" type="text" pInputText placeholder="Birthday" formControlName="birthday" />
-            <small class="p-error block" *ngIf="
+            <p-calendar formControlName="birthday" dateFormat="dd-mm-yy" [selectionMode]="'single'">{{
+                form.get('birthday')?.value | date: 'dd-MM-yyyy'
+            }}</p-calendar>            <small class="p-error block" *ngIf="
                 form.get('birthday')?.invalid && form.get('birthday')?.dirty
               ">
               A cat birthday is required</small>
@@ -49,7 +50,7 @@
       </form>
 
       <ng-template pTemplate="footer">
-        <p-button label="Add a cat" (onClick)="submit()">
+        <p-button severity="help" class="flex justify-content-end" label="Add a cat" (onClick)="submit()">
         </p-button>
     </ng-template>
 </p-card>

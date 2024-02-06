@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ButtonModule } from "primeng/button";
 import { InputTextModule } from "primeng/inputtext";
 import { RatingModule } from "primeng/rating";
-import { CommonModule } from "@angular/common";
+import { CommonModule, DatePipe } from "@angular/common";
 import { CardModule } from 'primeng/card';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { MessageService } from "primeng/api";
@@ -19,6 +19,8 @@ import { SidebarModule } from 'primeng/sidebar';
 import { DialogService, DynamicDialogModule } from "primeng/dynamicdialog";
 import { CreateCommentComponent } from "./components/modals/create-comment/create-comment.component";
 import { EditCommentComponent } from "./components/modals/edit-comment/edit-comment.component";
+import { DropdownModule } from "primeng/dropdown";
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
     declarations: [
@@ -43,9 +45,11 @@ import { EditCommentComponent } from "./components/modals/edit-comment/edit-comm
         ProgressSpinnerModule,
         ToastModule,
         SidebarModule,
-        DynamicDialogModule
+        DynamicDialogModule,
+        DropdownModule,
+        CalendarModule
     ],
-    providers: [CatsService, CommentsService, DialogService, MessageService],
+    providers: [CatsService, CommentsService, DialogService, MessageService, DatePipe],
     exports: [CatsRoutingModule]
 })
 export class CatsModule { }

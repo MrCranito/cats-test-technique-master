@@ -1,28 +1,26 @@
 <div>
-    <h3>Edit a component</h3>
-
-        <form [formGroup]="form" novalidate>
-            <div class="field">
-            <label for="text" class="block">Comment</label>
-            <input id="text" type="text" pInputText placeholder="Comment" formControlName="text" />
-            <small class="p-error block" *ngIf="
-                form.get('text')?.invalid && form.get('text')?.dirty
-                ">
-                A comment is required</small>
-            </div>
-
-            <div class="field">
-                <label for="note" class="block">Note</label>
-                <p-rating formControlName="note" [readonly]="false" [cancel]="false" [stars]="5"></p-rating>
-                <small class="p-error block" *ngIf="
-                    form.get('note')?.invalid && form.get('note')?.dirty
-                ">
-                A note is required</small>
-            </div>
-        </form>
-
-        <div>
-            <p-button [outlined]="true" severity="secondary" label="Annuler" (onClick)="close()"></p-button>
-            <p-button label="Save" (click)="update()"></p-button>
+    <form [formGroup]="form" novalidate>
+        <div class="field">
+        <label for="text" class="block">Comment</label>
+        <input id="text" type="text" pInputText placeholder="Comment" formControlName="text" />
+        <small class="p-error block" *ngIf="
+            form.get('text')?.invalid && form.get('text')?.dirty
+            ">
+            A comment is required</small>
         </div>
+
+        <div class="field">
+            <label for="note" class="block">Note</label>
+            <p-rating formControlName="note" [readonly]="false" [cancel]="false" [stars]="5"></p-rating>
+            <small class="p-error block" *ngIf="
+                form.get('note')?.invalid && form.get('note')?.dirty
+            ">
+            A note is required</small>
+        </div>
+    </form>
+
+    <div class="flex justify-content-between mt-6">
+        <p-button [outlined]="true" severity="secondary" label="Annuler" (onClick)="close()"></p-button>
+        <p-button label="Save" (click)="update()"></p-button>
+    </div>
 </div>

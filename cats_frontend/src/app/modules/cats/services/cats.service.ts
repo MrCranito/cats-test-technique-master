@@ -14,6 +14,7 @@ export class CatsService {
         page?: number,
         search?: string,
         field?: string,
+        filter?: { [key: string]: {value: string, matchMode: string}}
     ): Observable<{ cats: ICat[], count: number}> {
 
 
@@ -29,6 +30,40 @@ export class CatsService {
 
         if(field) {
             params['ordering'] = field;
+        }
+
+        if(filter) {
+            console.log(filter);
+            for(let key in filter) {
+                if(filter[key].value) {
+                    if(key === 'breed') {
+                    
+                        switch(filter[key].matchMode) {
+                            case 'in':
+                                params[key + '__in'] = filter[key].value
+                                break;
+                            case 'contains':
+                                params[key + '__contains'] = filter[key].value
+                                break;
+                        }
+                    } else if(key === 'avg_rating') {
+                        switch(filter[key].matchMode) {
+                            case 'gte':
+                                params[key + '__gte'] = filter[key].value
+                                break;
+                            case 'lte':
+                                params[key + '__lte'] = filter[key].value
+                                break;
+                            case 'gt':
+                                params[key + '__gt'] = filter[key].value
+                                break;
+                            case 'lt':
+                                params[key + '__lt'] = filter[key].value
+                                break;
+                        }
+                    }   
+                }
+            }
         }
 
         return this.http.get(`${environment.api_url}/v1/cats/`, {

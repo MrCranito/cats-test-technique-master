@@ -1,6 +1,4 @@
 <div>
-    <h3>Add a component</h3>
-
         <form [formGroup]="form" novalidate>
             <div class="field">
             <label for="text" class="block">Comment</label>
@@ -21,7 +19,7 @@
             </div>
         </form>
 
-        <div>
+        <div class="flex justify-content-between mt-6">
             <p-button [outlined]="true" severity="secondary" label="Annuler" (onClick)="close()"></p-button>
             <p-button label="Add Comment" (click)="add()"></p-button>
         </div>
