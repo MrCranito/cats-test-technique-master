@@ -1,5 +1,5 @@
 <p-toast></p-toast>
-<p-table [value]="cats" [totalRecords]="count" [columns]="cols" [paginator]="true" [rows]="rows" dataKey="id"  [lazy]="true" (onLazyLoad)="loadCat($event)">
+<p-table [value]="(cats$ | async)!" [totalRecords]="(count$ | async)!" [columns]="cols" [paginator]="true" [rows]="rows" dataKey="id"  [lazy]="true" (onLazyLoad)="loadCat($event)">
     <ng-template pTemplate="caption">
         <div class="caption">
             <span class="p-input-icon-left">
@@ -40,7 +40,7 @@
             <th></th>
             <th></th>
             <th style="min-width: 14rem">
-               <p-columnFilter type="text" field="breed" [matchModeOptions]="matchFiltersModeOptionsText" [matchMode]="matchFiltersModeOptionsText[0].value"></p-columnFilter>
+                <p-columnFilter type="text" field="breed" [matchModeOptions]="matchFiltersModeOptionsText" [matchMode]="matchFiltersModeOptionsText[0].value"></p-columnFilter>
             </th>
             <th></th>
             <th></th>
@@ -122,6 +122,7 @@
     </ng-template>
 </p-table>
 
+
 <!-- Sidebar for editing a cat -->
 <p-sidebar [(visible)]="editSidebarIsOpened" position="right">
     <ng-template pTemplate="header">
@@ -169,7 +170,7 @@
     </ng-template>
     <ng-template pTemplate="footer">
         <div class="footer-edit">
-            <p-button [outlined]="true" severity="secondary" label="Annuler" (onClick)="cancelCatEdit()"></p-button>
+            <p-button [outlined]="true" severity="secondary" label="Annuler" (onClick)="hideOrShowSideBar()"></p-button>
             <p-button label="Save" severity="help" (click)="updateCat()"></p-button>
         </div>
     </ng-template>

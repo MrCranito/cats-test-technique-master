@@ -2,7 +2,7 @@ import { createActionGroup, props } from "@ngrx/store";
 import { IComment } from "../../models/comment.model";
 
 export const CommentsActions = createActionGroup({
-    source: 'Components',
+    source: 'Comments Components',
     events: {
         load: props<{ id: string }>(),
         update: props<{ comment: IComment}>(),
@@ -12,7 +12,7 @@ export const CommentsActions = createActionGroup({
 })
 
 export const CommentsActionsSuccess = createActionGroup({
-    source: 'Effects',
+    source: 'Comments Effects',
     events: {
         load: props<{ comments: IComment[] }>(),
         update: props<{ comment: IComment }>(),

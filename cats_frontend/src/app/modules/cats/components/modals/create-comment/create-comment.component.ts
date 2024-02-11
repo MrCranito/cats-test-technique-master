@@ -2,9 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { DynamicDialogRef, DynamicDialogConfig } from "primeng/dynamicdialog";
 import { ICat } from "../../../models/cat.model";
-import { CommentsService } from "../../../services/comments.service";
 import { IComment } from "../../../models/comment.model";
-import { MessageService } from "primeng/api";
 
 @Component({
     selector: 'app-create-comment',
@@ -12,7 +10,6 @@ import { MessageService } from "primeng/api";
 })
 
 export class CreateCommentComponent implements OnInit {
-
 
     cat: ICat | null = null;
 
@@ -23,7 +20,6 @@ export class CreateCommentComponent implements OnInit {
     })
 
     constructor(
-        private commentsService: CommentsService,
         private ref: DynamicDialogRef,
         private config: DynamicDialogConfig,
     ) { }
@@ -32,19 +28,18 @@ export class CreateCommentComponent implements OnInit {
         this.cat = this.config.data.cat;
     }
 
-    add() {
+    add(): void {
         const comment: IComment = {
             cat: this.cat!.id!,
             text: this.form.get('text')?.value,
             note: this.form.get('note')?.value
         }
 
-        this.commentsService.create(comment).subscribe((comment) => {
-            this.ref.close(comment);
-        });
+        // dispatch action
+        this.ref.close(comment);
     }
 
-    close() {
+    close(): void {
         this.ref.close();
     }
 

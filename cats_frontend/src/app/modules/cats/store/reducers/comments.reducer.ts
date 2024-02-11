@@ -26,6 +26,9 @@ export const commentsReducer = createReducer(
     on(CommentsActionsSuccess.add, (state, { comment }) => {
         return adapter.addOne(comment, state);
     }),
+    on(CommentsActionsSuccess.update, (state, { comment }) => {
+        return adapter.updateOne({ id: comment.id!, changes: comment }, state);
+    }),
     on(CommentsActionsSuccess.delete, (state, { id }) => {
         return adapter.removeOne(id, state);
     }),

@@ -1,9 +1,9 @@
-import { createActionGroup, props } from "@ngrx/store";
+import { createActionGroup, emptyProps, props } from "@ngrx/store";
 import { ICat } from "../../models/cat.model";
 import { IApiParams } from "../../models/api.model";
 
 export const CatsActions = createActionGroup({
-    source: 'Components',
+    source: 'Cats Components',
     events: {
         load: props<{ params: IApiParams }>(),
         add: props<{ cat: ICat}>(),
@@ -13,7 +13,7 @@ export const CatsActions = createActionGroup({
 })
 
 export const CatsActionsSuccess = createActionGroup({
-    source: 'Effects',
+    source: 'Cats Effects',
     events: {
         load: props<{ cats: ICat[], count: number }>(),
         add: props<{ cat: ICat }>(),

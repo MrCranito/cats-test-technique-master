@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { ICat } from "../models/cat.model";
 import { Observable, map } from "rxjs";
 import { environment } from "src/app/environment/environment";
+import { IApiParams } from "../models/api.model";
 
 @Injectable({
     providedIn: 'root'
@@ -11,54 +12,49 @@ export class CatsService {
     constructor(private http: HttpClient) { }
 
     get(
-        page?: number,
-        search?: string,
-        field?: string,
-        filter?: { [key: string]: {value: string, matchMode: string}}
+        params?: IApiParams,
     ): Observable<{ cats: ICat[], count: number}> {
 
 
-        const params: {[key: string]: any} = {};
+        const apiParams: {[key: string]: any} = {};
 
-        if(page) {
-            params['page'] = page;
+        if(params?.page) {
+            apiParams['page'] = params.page;
         }
 
-        if(search) {
-            params['search'] = search;
+        if(params?.search) {
+            apiParams['search'] = params.search;
         }
 
-        if(field) {
-            params['ordering'] = field;
+        if(params?.field) {
+            apiParams['ordering'] = params.field;
         }
 
-        if(filter) {
-            console.log(filter);
-            for(let key in filter) {
-                if(filter[key].value) {
+        if(params?.filter) {
+            for(let key in params.filter) {
+                if(params.filter[key].value) {
                     if(key === 'breed') {
-                    
-                        switch(filter[key].matchMode) {
+                        switch(params.filter[key].matchMode) {
                             case 'in':
-                                params[key + '__in'] = filter[key].value
+                                apiParams[key + '__in'] = params.filter[key].value
                                 break;
                             case 'contains':
-                                params[key + '__contains'] = filter[key].value
+                                apiParams[key + '__contains'] = params.filter[key].value
                                 break;
                         }
                     } else if(key === 'avg_rating') {
-                        switch(filter[key].matchMode) {
+                        switch(params.filter[key].matchMode) {
                             case 'gte':
-                                params[key + '__gte'] = filter[key].value
+                                apiParams[key + '__gte'] = params.filter[key].value
                                 break;
                             case 'lte':
-                                params[key + '__lte'] = filter[key].value
+                                apiParams[key + '__lte'] = params.filter[key].value
                                 break;
                             case 'gt':
-                                params[key + '__gt'] = filter[key].value
+                                apiParams[key + '__gt'] = params.filter[key].value
                                 break;
                             case 'lt':
-                                params[key + '__lt'] = filter[key].value
+                                apiParams[key + '__lt'] = params.filter[key].value
                                 break;
                         }
                     }   
@@ -67,7 +63,7 @@ export class CatsService {
         }
 
         return this.http.get(`${environment.api_url}/v1/cats/`, {
-            params: params,
+            params: apiParams,
         }).pipe(map((data: any ) => {
             let results: ICat[] = [];
             for(let item of data.results) {

@@ -17,8 +17,8 @@ export class CatsEffects {
     onLoad$ = createEffect(() =>
         this.actions$.pipe(
             ofType(CatsActions.load),
-            switchMap(() =>
-                this.catsService.get().pipe(
+            switchMap((action) =>
+                this.catsService.get(action.params).pipe(
                     map((result: { cats: ICat[], count: number }) => 
                          CatsActionsSuccess.load({
                             cats: result.cats,
@@ -35,9 +35,9 @@ export class CatsEffects {
             ofType(CatsActions.add),
             switchMap(({ cat }) =>
                 this.catsService.create(cat).pipe(
-                    map((result: ICat) => {
+                    map((cat: ICat) => {
                         this.messageService.add({ severity:'success', summary:'Success', detail: 'Cat added'});
-                        return CatsActionsSuccess.add({ cat: result })
+                        return CatsActionsSuccess.add({ cat } )
                     }),
                     catchError(() => {
                         this.messageService.add({ severity:'error', summary:'Error', detail: 'Something wrong happened on added' });
@@ -53,9 +53,9 @@ export class CatsEffects {
             ofType(CatsActions.update),
             switchMap(({ cat }) =>
                 this.catsService.update(cat).pipe(
-                    map((result: ICat) => {
+                    map((cat: ICat) => {
                         this.messageService.add({ severity:'success', summary:'Success', detail: 'Cat updated' });
-                        return CatsActionsSuccess.update({ cat: result })
+                        return CatsActionsSuccess.update({ cat })
                     }),
                     catchError(() => {
                         this.messageService.add({ severity:'error', summary:'Error', detail: 'Something wrong happened on updated' });

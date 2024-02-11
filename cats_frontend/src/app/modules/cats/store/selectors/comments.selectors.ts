@@ -7,13 +7,5 @@ export const selectCommentsState =
 export const getState = createSelector(selectCommentsState, (state) => state);
 
 export const {
-  selectIds,
-  selectEntities: selectLikesEntities,
-  selectAll: selectLikes,
-  selectTotal,
+  selectAll: selectComments,
 } = adapter.getSelectors(getState);
-
-export const selectIsLoading = createSelector(
-    getState,
-    (state) => state.loading
-);

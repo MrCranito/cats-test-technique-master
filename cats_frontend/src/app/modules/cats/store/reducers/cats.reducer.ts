@@ -19,14 +19,16 @@ export const initialState: CatsState = adapter.getInitialState({
   
 export const catsReducer = createReducer(
     initialState,
-    on(CatsActions.load, (state) => {
-        return { ...state, loading: true };
-    }),
-    on(CatsActionsSuccess.load, (state,  { cats }) => {
-        return adapter.addMany(cats, { ...state, loading: false });
+    on(CatsActions.load, (state) =>  ({ ...state, loading: true })),
+    on(CatsActionsSuccess.load, (state,  { cats, count }) => {
+        const newState = adapter.removeAll(state);
+        return adapter.addMany(cats, { ...newState, count,  loading: false });
     }),
     on(CatsActionsSuccess.add, (state, { cat }) => {
         return adapter.addOne(cat, state);
+    }),
+    on(CatsActionsSuccess.update, (state, { cat }) => {
+        return adapter.updateOne({ id: cat.id!, changes: cat }, state);
     }),
     on(CatsActionsSuccess.delete, (state, { id }) => {
         return adapter.removeOne(id, state);
