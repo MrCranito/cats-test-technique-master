@@ -38,10 +38,11 @@ export class CatsListComponent implements OnInit {
         { label: 'Contains', value: FilterMatchMode.CONTAINS },
         { label: 'In', value: FilterMatchMode.IN },
     ]
-    matchFiltersModeOptionsNumber: { label: string, value: string }[] =  [
+    matchFiltersModeOptionsNumber: SelectItem[] =  [
         { label: 'Greater than', value: FilterMatchMode.GREATER_THAN },
         { label: 'Less than', value: FilterMatchMode.LESS_THAN },
-    ];
+    ]
+    
     count: number = 0;
     first: number = 0;
     rows: number = 10;
@@ -92,6 +93,7 @@ export class CatsListComponent implements OnInit {
                     this.first = 0;
                 }));
             })
+
     }
 
     // lazy load call
