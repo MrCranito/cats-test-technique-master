@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { ICat } from "../models/cat.model";
 import { Observable, map } from "rxjs";
 import { environment } from "src/app/environment/environment";
-import { IApiParams } from "../models/api.model";
+import { IApiParams, IApiResult, IMetaParams } from "../models/api.model";
 
 @Injectable({
     providedIn: 'root'
@@ -12,14 +12,13 @@ export class CatsService {
     constructor(private http: HttpClient) { }
 
     get(
-        params?: IApiParams,
+        params?: IMetaParams,
     ): Observable<{ cats: ICat[], count: number}> {
 
-
-        const apiParams: {[key: string]: any} = {};
+        const apiParams: IApiParams = {};
 
         if(params?.page) {
-            apiParams['page'] = params.page;
+            apiParams['page'] = params.page.toString();
         }
 
         if(params?.search) {
@@ -30,53 +29,20 @@ export class CatsService {
             apiParams['ordering'] = params.field;
         }
 
-        if(params?.filter) {
-            for(let key in params.filter) {
-                if(params.filter[key].value) {
-                    if(key === 'breed') {
-                        switch(params.filter[key].matchMode) {
-                            case 'in':
-                                apiParams[key + '__in'] = params.filter[key].value
-                                break;
-                            case 'contains':
-                                apiParams[key + '__contains'] = params.filter[key].value
-                                break;
-                        }
-                    } else if(key === 'avg_rating') {
-                        switch(params.filter[key].matchMode) {
-                            case 'gte':
-                                apiParams[key + '__gte'] = params.filter[key].value
-                                break;
-                            case 'lte':
-                                apiParams[key + '__lte'] = params.filter[key].value
-                                break;
-                            case 'gt':
-                                apiParams[key + '__gt'] = params.filter[key].value
-                                break;
-                            case 'lt':
-                                apiParams[key + '__lt'] = params.filter[key].value
-                                break;
-                        }
-                    }   
+        if (params?.filter) {
+            const { filter } = params;
+            for (const key in filter) {
+                const { value, matchMode } = filter[key];
+                if (value) {
+                    apiParams[`${key}__${matchMode}`] = value;
                 }
             }
         }
 
-        return this.http.get(`${environment.api_url}/v1/cats/`, {
+        return this.http.get<IApiResult>(`${environment.api_url}/v1/cats/`, {
             params: apiParams,
-        }).pipe(map((data: any ) => {
-            let results: ICat[] = [];
-            for(let item of data.results) {
-                results.push({
-                    id: item.id,
-                    name: item.name,
-                    breed: item.breed,
-                    birthday: item.birthday,
-                    description: item.description,
-                    avg_rating: item.avg_rating,
-                });
-            }
-            return {cats: results, count: data.count};
+        }).pipe(map((data: IApiResult ) => {
+            return {cats: data.results, count: data.count};
         }));
     }
 

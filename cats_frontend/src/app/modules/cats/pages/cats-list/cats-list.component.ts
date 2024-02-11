@@ -136,6 +136,9 @@ export class CatsListComponent implements OnInit, OnDestroy {
 
         // dispatch the update action
         this.store.dispatch(CatsActions.update({ cat }));
+
+        // close the sidebar
+        this.hideOrShowSideBar();
     }
 
     deleteCat(cat: ICat): void {

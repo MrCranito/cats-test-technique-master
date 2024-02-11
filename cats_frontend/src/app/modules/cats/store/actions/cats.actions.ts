@@ -1,11 +1,11 @@
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
 import { ICat } from "../../models/cat.model";
-import { IApiParams } from "../../models/api.model";
+import { IApiParams, IMetaParams } from "../../models/api.model";
 
 export const CatsActions = createActionGroup({
     source: 'Cats Components',
     events: {
-        load: props<{ params: IApiParams }>(),
+        load: props<{ params: IMetaParams }>(),
         add: props<{ cat: ICat}>(),
         update: props<{ cat: ICat}>(),
         delete: props<{ id: string }>(),
