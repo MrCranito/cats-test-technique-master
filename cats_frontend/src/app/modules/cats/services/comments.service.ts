@@ -37,7 +37,7 @@ export class CommentsService {
         return this.http.patch<IComment>(`${environment.api_url}/v1/comments/${comment.id}/`, comment);
     }
 
-    delete(id: number): Observable<any> {
+    delete(id: string): Observable<any> {
         return this.http.delete(`${environment.api_url}/v1/comments/${id}/`);
     }
 }

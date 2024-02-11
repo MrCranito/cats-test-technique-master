@@ -1,7 +1,7 @@
 import { createActionGroup, props } from "@ngrx/store";
 import { ICat } from "../../models/cat.model";
 
-export const catsActions = createActionGroup({
+export const CatsActions = createActionGroup({
     source: 'Components',
     events: {
         load: props<{ params: any }>(),
@@ -10,10 +10,10 @@ export const catsActions = createActionGroup({
     }
 })
 
-export const catsActionsSuccess = createActionGroup({
+export const CatsActionsSuccess = createActionGroup({
     source: 'Effects',
     events: {
-        load: props<{ cats: ICat[] }>(),
+        load: props<{ cats: ICat[], count: number }>(),
         add: props<{ cat: ICat }>(),
         delete: props<{ id: string }>(),
     }
