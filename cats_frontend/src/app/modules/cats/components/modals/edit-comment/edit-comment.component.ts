@@ -32,7 +32,7 @@ export class EditCommentComponent {
         })
     }
 
-    update() {
+    update(): void {
         const comment: IComment = {
             id: this.comment!.id!,
             cat: this.form.get('cat')?.value,
@@ -43,7 +43,7 @@ export class EditCommentComponent {
         this.ref.close(comment);
     }
 
-    close() {
+    close(): void {
         this.ref.close();
     }
 }
