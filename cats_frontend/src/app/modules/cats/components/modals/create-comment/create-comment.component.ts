@@ -35,7 +35,6 @@ export class CreateCommentComponent implements OnInit {
             note: this.form.get('note')?.value
         }
 
-        // dispatch action
         this.ref.close(comment);
     }
 
