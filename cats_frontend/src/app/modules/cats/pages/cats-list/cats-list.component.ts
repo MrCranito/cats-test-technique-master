@@ -3,7 +3,7 @@ import { ICat } from "../../models/cat.model";
 import { ActivatedRoute, Router } from "@angular/router";
 import { IComment } from "../../models/comment.model";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { FilterMatchMode } from "primeng/api";
+import { FilterMatchMode, SelectItem } from "primeng/api";
 import { DialogService } from 'primeng/dynamicdialog';
 import { CreateCommentComponent } from "../../components/modals/create-comment/create-comment.component";
 import { EditCommentComponent } from "../../components/modals/edit-comment/edit-comment.component";
@@ -38,11 +38,11 @@ export class CatsListComponent implements OnInit, OnDestroy {
         { field: 'birthday', header: 'Birthday' },
         { field: 'description', header: 'Description' },
     ]
-    matchFiltersModeOptionsText = [
+    matchFiltersModeOptionsText: SelectItem[] = [
         { label: 'Contains', value: FilterMatchMode.CONTAINS },
         { label: 'In', value: FilterMatchMode.IN },
     ]
-    matchFiltersModeOptionsNumber = [
+    matchFiltersModeOptionsNumber: SelectItem[]= [
         { label: 'Greater than', value: FilterMatchMode.GREATER_THAN },
         { label: 'Less than', value: FilterMatchMode.LESS_THAN },
     ]
