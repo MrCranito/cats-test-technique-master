@@ -1,10 +1,10 @@
 import { Component } from "@angular/core";
-import { CatsService } from "../../services/cats.service";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { ICat } from "../../models/cat.model";
-import { MessageService } from "primeng/api";
 import { Router } from "@angular/router";
 import { DatePipe } from "@angular/common";
+import { Store } from "@ngrx/store";
+import { CatsActions } from "../../store/actions/cats.actions";
 
 @Component({
     selector: 'app-cats-form',
@@ -21,32 +21,27 @@ export class CatsFormComponent {
     });
 
     constructor(
-        private catsService: CatsService,
-        private messageService: MessageService,
         private router: Router,
-        private datePipe: DatePipe
+        private datePipe: DatePipe,
+        private store: Store,
     ) { }
 
-
-    submit() {
+    submit(): void {
         const cat: ICat = {
             name: this.form.get('name')?.value,
             breed: this.form.get('breed')?.value,
             birthday: this.datePipe.transform(this.form.get('birthday')?.value, 'YYYY-MM-dd')!,
             description: this.form.get('description')?.value,
-            comments: []
-          };
-          try {
-            this.catsService.create(cat).subscribe(cat => {
-              this.messageService.add({ severity: 'success', summary: 'Success', detail: 'The cat is created' });
-              this.form.reset();
-            });
-          } catch (error) {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error on creating the cat, please check the log' });
-        }
+        };
+         
+        // dispatch action
+        this.store.dispatch(CatsActions.add({ cat }));
+
+        // reset form after dispatch
+        this.form.reset();
     }
 
-    goBackToList() {
+    goBackToList(): void {
         this.router.navigate(['cats']);
     }
 }

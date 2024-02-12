@@ -21,6 +21,9 @@ import { CreateCommentComponent } from "./components/modals/create-comment/creat
 import { EditCommentComponent } from "./components/modals/edit-comment/edit-comment.component";
 import { DropdownModule } from "primeng/dropdown";
 import { CalendarModule } from 'primeng/calendar';
+import { EffectsModule } from "@ngrx/effects";
+import { CatsEffects } from "./store/effects/cats.effects";
+import { CommentsEffects } from "./store/effects/comments.effects";
 
 @NgModule({
     declarations: [
@@ -31,6 +34,7 @@ import { CalendarModule } from 'primeng/calendar';
     ],
     imports: [
         CommonModule,
+        EffectsModule.forFeature([CatsEffects, CommentsEffects]),
         CatsRoutingModule,
         HttpClientModule,
         FormsModule,

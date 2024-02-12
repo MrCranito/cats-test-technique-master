@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { ICat } from "../models/cat.model";
 import { Observable, map } from "rxjs";
 import { environment } from "src/app/environment/environment";
+import { IApiParams, IApiResult, IMetaParams } from "../models/api.model";
 
 @Injectable({
     providedIn: 'root'
@@ -11,76 +12,37 @@ export class CatsService {
     constructor(private http: HttpClient) { }
 
     get(
-        page?: number,
-        search?: string,
-        field?: string,
-        filter?: { [key: string]: {value: string, matchMode: string}}
+        params?: IMetaParams,
     ): Observable<{ cats: ICat[], count: number}> {
 
+        const apiParams: IApiParams = {};
 
-        const params: {[key: string]: any} = {};
-
-        if(page) {
-            params['page'] = page;
+        if(params?.page) {
+            apiParams['page'] = params.page.toString();
         }
 
-        if(search) {
-            params['search'] = search;
+        if(params?.search) {
+            apiParams['search'] = params.search;
         }
 
-        if(field) {
-            params['ordering'] = field;
+        if(params?.field) {
+            apiParams['ordering'] = params.field;
         }
 
-        if(filter) {
-            console.log(filter);
-            for(let key in filter) {
-                if(filter[key].value) {
-                    if(key === 'breed') {
-                    
-                        switch(filter[key].matchMode) {
-                            case 'in':
-                                params[key + '__in'] = filter[key].value
-                                break;
-                            case 'contains':
-                                params[key + '__contains'] = filter[key].value
-                                break;
-                        }
-                    } else if(key === 'avg_rating') {
-                        switch(filter[key].matchMode) {
-                            case 'gte':
-                                params[key + '__gte'] = filter[key].value
-                                break;
-                            case 'lte':
-                                params[key + '__lte'] = filter[key].value
-                                break;
-                            case 'gt':
-                                params[key + '__gt'] = filter[key].value
-                                break;
-                            case 'lt':
-                                params[key + '__lt'] = filter[key].value
-                                break;
-                        }
-                    }   
+        if (params?.filter) {
+            const { filter } = params;
+            for (const key in filter) {
+                const { value, matchMode } = filter[key];
+                if (value) {
+                    apiParams[`${key}__${matchMode}`] = value;
                 }
             }
         }
 
-        return this.http.get(`${environment.api_url}/v1/cats/`, {
-            params: params,
-        }).pipe(map((data: any ) => {
-            let results: ICat[] = [];
-            for(let item of data.results) {
-                results.push({
-                    id: item.id,
-                    name: item.name,
-                    breed: item.breed,
-                    birthday: item.birthday,
-                    description: item.description,
-                    avg_rating: item.avg_rating,
-                });
-            }
-            return {cats: results, count: data.count};
+        return this.http.get<IApiResult>(`${environment.api_url}/v1/cats/`, {
+            params: apiParams,
+        }).pipe(map((data: IApiResult ) => {
+            return {cats: data.results, count: data.count};
         }));
     }
 
